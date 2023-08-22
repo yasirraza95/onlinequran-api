@@ -18,7 +18,7 @@ use App\Models\Log;
 use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\Mail;
 use Validator;
-
+ 
 class GeneralController extends Controller
 {
     use ApiResponser;
