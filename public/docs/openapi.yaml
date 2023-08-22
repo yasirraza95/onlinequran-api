@@ -1,0 +1,709 @@
+openapi: 3.0.3
+info:
+  title: 'CMC Central API'
+  description: 'test description'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+paths:
+  /api/v1/city/list:
+    get:
+      summary: 'List all the Cities in our system.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'City and State Management'
+      security: []
+  /api/v1/city/get-by-state:
+    post:
+      summary: 'Get Cities by State.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'City and State Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                state_id:
+                  type: integer
+                  description: ''
+                  example: 6
+              required:
+                - state_id
+      security: []
+  /api/v1/city/add:
+    post:
+      summary: 'Add New City.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'City and State Management'
+      security: []
+  '/api/v1/city/update/{id}':
+    put:
+      summary: 'Update any existing City.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'City and State Management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: ''
+        example: rerum
+        required: true
+        schema:
+          type: string
+  '/api/v1/city/delete/{id}':
+    delete:
+      summary: 'Soft-delete a City from our Db.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'City and State Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deleted_by:
+                  type: integer
+                  description: ''
+                  example: 13
+                deleted_ip:
+                  type: string
+                  description: 'Must be a valid IP address.'
+                  example: 157.207.102.218
+              required:
+                - deleted_by
+                - deleted_ip
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: ''
+        example: et
+        required: true
+        schema:
+          type: string
+  /api/v1/state/list:
+    get:
+      summary: 'List all the States in our system.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'City and State Management'
+      security: []
+  /api/v1/state/add:
+    post:
+      summary: 'Add New State.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'City and State Management'
+      security: []
+  /api/v1/web-config/add:
+    post:
+      summary: "Add New Website's Configuration."
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Websites Configuration Management'
+      security: []
+  '/api/v1/web-config/update/{id}':
+    put:
+      summary: 'Update any existing Website Configuration.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Websites Configuration Management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: ''
+        example: ducimus
+        required: true
+        schema:
+          type: string
+  '/api/v1/web-config/delete/{id}':
+    delete:
+      summary: 'Soft-delete a Website Configuration from our Db.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Websites Configuration Management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: ''
+        example: corporis
+        required: true
+        schema:
+          type: string
+  /api/v1/web-config/get-by-id:
+    post:
+      summary: 'Get website Configuration by its ID.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Websites Configuration Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ''
+                  example: 18
+              required:
+                - id
+      security: []
+  /api/v1/web-config/get-by-param:
+    post:
+      summary: 'Get Website Configuration by any parameter.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Websites Configuration Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  description: ''
+                  example: exercitationem
+                value:
+                  type: string
+                  description: ''
+                  example: asperiores
+              required:
+                - key
+                - value
+      security: []
+  /api/v1/web-config/get-selective-record:
+    post:
+      summary: 'Get Selected Website Configuration Data.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Websites Configuration Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                indexes:
+                  type: string
+                  description: ''
+                  example: ut
+              required:
+                - indexes
+      security: []
+  /api/v1/web-config/list:
+    get:
+      summary: 'List all the Websites Configurations in our system.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Websites Configuration Management'
+      security: []
+  /api/v1/auth/login:
+    post:
+      summary: 'Get a JWT via given credentials.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Authentication (JWT)'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: 'Must be at least 6 characters. Must not be greater than 255 characters.'
+                  example: prakkuxtzrqosysrlysbkaqqiyvrtiamgpwmggpnofwbopnyonyvllwymtutbrclpmsojydwecinfxbclrsijksohqheqjrnfswrzlwqvqectjgvfxcvcsnlbbbqkpfifunbruehanoineageqnvpoejzkmvjjsbbzmtsclwusjhphhrvesukrbqgkkhuqujrxhujlwjidhfdzuzghbzkpdsorn
+      security: []
+  /api/v1/auth/logout:
+    post:
+      summary: 'Log the user out (Invalidate the token).'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Authentication (JWT)'
+      security: []
+  /api/v1/auth/profile:
+    post:
+      summary: 'Get the authenticated User.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Authentication (JWT)'
+      security: []
+  /api/v1/auth/create:
+    post:
+      summary: 'Create New Site Credentials.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Authentication (JWT)'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                site_name:
+                  type: string
+                  description: ''
+                  example: sint
+                username:
+                  type: string
+                  description: 'Must contain only letters, numbers, dashes and underscores. Must be at least 6 characters. Must not be greater than 255 characters.'
+                  example: ydhvqttdcwzjnufqqmedusmwenmveezdvyzuiupeoxyxtpzsyflyjbldfcfvxnisvernorgmblbrlajrhcgbnwqexltdhdtbfcosvnhffblmqiqnjevxnndxayeklokuijwtddebwrwzveogaznmyphfnjlagpdjusjvdddukymdbtl
+                password:
+                  type: string
+                  description: ''
+                  example: voluptas
+              required:
+                - site_name
+                - username
+                - password
+      security: []
+  /api/v1/auth/refresh-token:
+    post:
+      summary: 'Refresh a token.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Authentication (JWT)'
+      security: []
+  /api/v1/web-info/add:
+    post:
+      summary: "Add New Website's Info ."
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Local Websites Info Management'
+      security: []
+  '/api/v1/web-info/update/{id}':
+    put:
+      summary: 'Update any existing Website Info.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Local Websites Info Management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: ''
+        example: officiis
+        required: true
+        schema:
+          type: string
+  '/api/v1/web-info/delete/{id}':
+    delete:
+      summary: 'Delete Website from our central Db.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Local Websites Info Management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: ''
+        example: sunt
+        required: true
+        schema:
+          type: string
+  /api/v1/web-info/get-by-id:
+    post:
+      summary: 'Get website Info by ID.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Local Websites Info Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ''
+                  example: 6
+              required:
+                - id
+      security: []
+  '/api/v1/web-info/get-by-web-id/{website}':
+    post:
+      summary: 'Get website Info by website ID.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Local Websites Info Management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: website
+        description: ''
+        example: aperiam
+        required: true
+        schema:
+          type: string
+  /api/v1/web-info/get-by-param:
+    post:
+      summary: 'Get Website Info by any parameter.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Local Websites Info Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  description: ''
+                  example: officiis
+                value:
+                  type: string
+                  description: ''
+                  example: dicta
+              required:
+                - key
+                - value
+      security: []
+  /api/v1/web-info/list:
+    get:
+      summary: 'List all the Websites Info in our system.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Local Websites Info Management'
+      security: []
+  /api/v1/web-info/get-selective-record:
+    post:
+      summary: 'Get Selective Website Info.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Local Websites Info Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                indexes:
+                  type: string
+                  description: ''
+                  example: pariatur
+              required:
+                - indexes
+      security: []
+  /api/v1/website/add:
+    post:
+      summary: 'Add New Website.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Local Websites Management'
+      security: []
+  '/api/v1/website/update/{id}':
+    put:
+      summary: 'Update any existing Website.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Local Websites Management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: ''
+        example: odio
+        required: true
+        schema:
+          type: string
+  '/api/v1/website/delete/{id}':
+    delete:
+      summary: 'Delete Website from our central Db.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Local Websites Management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: ''
+        example: qui
+        required: true
+        schema:
+          type: string
+  /api/v1/website/get-by-id:
+    post:
+      summary: 'Get website by its ID.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Local Websites Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ''
+                  example: 2
+              required:
+                - id
+      security: []
+  /api/v1/website/get-by-param:
+    post:
+      summary: 'Get Website by any parameter.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Local Websites Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  description: ''
+                  example: natus
+                value:
+                  type: string
+                  description: ''
+                  example: commodi
+              required:
+                - key
+                - value
+      security: []
+  /api/v1/website/list:
+    get:
+      summary: 'List all the Websites in our system.'
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Local Websites Management'
+      security: []
+  /api/v1/website/get-selective-record:
+    post:
+      summary: 'Get Selective Websites.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Local Websites Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                indexes:
+                  type: string
+                  description: ''
+                  example: temporibus
+              required:
+                - indexes
+      security: []
+tags:
+  -
+    name: 'City and State Management'
+    description: ''
+  -
+    name: 'Websites Configuration Management'
+    description: ''
+  -
+    name: 'Authentication (JWT)'
+    description: ''
+  -
+    name: 'Local Websites Info Management'
+    description: ''
+  -
+    name: 'Local Websites Management'
+    description: ''
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: ''
+security:
+  -
+    default: []

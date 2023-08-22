@@ -1,0 +1,3175 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>CMC Central API</title>
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../docs/css/theme-default.style.css" media="screen">
+    <link rel="stylesheet" href="../docs/css/theme-default.print.css" media="print">
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/@highlightjs/cdn-assets@10.7.2/styles/obsidian.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@10.7.2/highlight.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jets/0.14.1/jets.min.js"></script>
+
+    <style id="language-style">
+        /* starts out as display none and is replaced with js later  */
+                    body .content .bash-example code { display: none; }
+                    body .content .javascript-example code { display: none; }
+            </style>
+
+    <script>
+        var baseUrl = "http://localhost/BitbucketRepos/general-cmc-api";
+        var useCsrf = Boolean();
+        var csrfUrl = "/sanctum/csrf-cookie";
+    </script>
+    <script src="../docs/js/tryitout-3.35.0.js"></script>
+
+    <script src="../docs/js/theme-default-3.35.0.js"></script>
+
+</head>
+
+<body data-languages="[&quot;bash&quot;,&quot;javascript&quot;]">
+
+<a href="#" id="nav-button">
+    <span>
+        MENU
+        <img src="../docs/images/navbar.png" alt="navbar-image" />
+    </span>
+</a>
+<div class="tocify-wrapper">
+    
+            <div class="lang-selector">
+                                            <button type="button" class="lang-button" data-language-name="bash">bash</button>
+                                            <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
+                    </div>
+    
+    <div class="search">
+        <input type="text" class="search" id="input-search" placeholder="Search">
+    </div>
+
+    <div id="toc">
+                                                                            <ul id="tocify-header-0" class="tocify-header">
+                    <li class="tocify-item level-1" data-unique="introduction">
+                        <a href="#introduction">Introduction</a>
+                    </li>
+                                            
+                                                                    </ul>
+                                                <ul id="tocify-header-1" class="tocify-header">
+                    <li class="tocify-item level-1" data-unique="authenticating-requests">
+                        <a href="#authenticating-requests">Authenticating requests</a>
+                    </li>
+                                            
+                                                </ul>
+                    
+                    <ul id="tocify-header-2" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="city-and-state-management">
+                    <a href="#city-and-state-management">City and State Management</a>
+                </li>
+                                    <ul id="tocify-subheader-city-and-state-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="city-and-state-management-GETapi-v1-city-list">
+                        <a href="#city-and-state-management-GETapi-v1-city-list">List all the Cities in our system.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="city-and-state-management-POSTapi-v1-city-get-by-state">
+                        <a href="#city-and-state-management-POSTapi-v1-city-get-by-state">Get Cities by State.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="city-and-state-management-POSTapi-v1-city-add">
+                        <a href="#city-and-state-management-POSTapi-v1-city-add">Add New City.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="city-and-state-management-PUTapi-v1-city-update--id-">
+                        <a href="#city-and-state-management-PUTapi-v1-city-update--id-">Update any existing City.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="city-and-state-management-DELETEapi-v1-city-delete--id-">
+                        <a href="#city-and-state-management-DELETEapi-v1-city-delete--id-">Soft-delete a City from our Db.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="city-and-state-management-GETapi-v1-state-list">
+                        <a href="#city-and-state-management-GETapi-v1-state-list">List all the States in our system.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="city-and-state-management-POSTapi-v1-state-add">
+                        <a href="#city-and-state-management-POSTapi-v1-state-add">Add New State.</a>
+                    </li>
+                                                    </ul>
+                            </ul>
+                    <ul id="tocify-header-3" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="websites-configuration-management">
+                    <a href="#websites-configuration-management">Websites Configuration Management</a>
+                </li>
+                                    <ul id="tocify-subheader-websites-configuration-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="websites-configuration-management-POSTapi-v1-web-config-add">
+                        <a href="#websites-configuration-management-POSTapi-v1-web-config-add">Add New Website&#039;s Configuration.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="websites-configuration-management-PUTapi-v1-web-config-update--id-">
+                        <a href="#websites-configuration-management-PUTapi-v1-web-config-update--id-">Update any existing Website Configuration.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="websites-configuration-management-DELETEapi-v1-web-config-delete--id-">
+                        <a href="#websites-configuration-management-DELETEapi-v1-web-config-delete--id-">Soft-delete a Website Configuration from our Db.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="websites-configuration-management-POSTapi-v1-web-config-get-by-id">
+                        <a href="#websites-configuration-management-POSTapi-v1-web-config-get-by-id">Get website Configuration by its ID.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="websites-configuration-management-POSTapi-v1-web-config-get-by-param">
+                        <a href="#websites-configuration-management-POSTapi-v1-web-config-get-by-param">Get Website Configuration by any parameter.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="websites-configuration-management-POSTapi-v1-web-config-get-selective-record">
+                        <a href="#websites-configuration-management-POSTapi-v1-web-config-get-selective-record">Get Selected Website Configuration Data.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="websites-configuration-management-GETapi-v1-web-config-list">
+                        <a href="#websites-configuration-management-GETapi-v1-web-config-list">List all the Websites Configurations in our system.</a>
+                    </li>
+                                                    </ul>
+                            </ul>
+                    <ul id="tocify-header-4" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="authentication-jwt">
+                    <a href="#authentication-jwt">Authentication (JWT)</a>
+                </li>
+                                    <ul id="tocify-subheader-authentication-jwt" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="authentication-jwt-POSTapi-v1-auth-login">
+                        <a href="#authentication-jwt-POSTapi-v1-auth-login">Get a JWT via given credentials.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="authentication-jwt-POSTapi-v1-auth-logout">
+                        <a href="#authentication-jwt-POSTapi-v1-auth-logout">Log the user out (Invalidate the token).</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="authentication-jwt-POSTapi-v1-auth-profile">
+                        <a href="#authentication-jwt-POSTapi-v1-auth-profile">Get the authenticated User.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="authentication-jwt-POSTapi-v1-auth-create">
+                        <a href="#authentication-jwt-POSTapi-v1-auth-create">Create New Site Credentials.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="authentication-jwt-POSTapi-v1-auth-refresh-token">
+                        <a href="#authentication-jwt-POSTapi-v1-auth-refresh-token">Refresh a token.</a>
+                    </li>
+                                                    </ul>
+                            </ul>
+                    <ul id="tocify-header-5" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="local-websites-info-management">
+                    <a href="#local-websites-info-management">Local Websites Info Management</a>
+                </li>
+                                    <ul id="tocify-subheader-local-websites-info-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="local-websites-info-management-POSTapi-v1-web-info-add">
+                        <a href="#local-websites-info-management-POSTapi-v1-web-info-add">Add New Website&#039;s Info .</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="local-websites-info-management-PUTapi-v1-web-info-update--id-">
+                        <a href="#local-websites-info-management-PUTapi-v1-web-info-update--id-">Update any existing Website Info.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="local-websites-info-management-DELETEapi-v1-web-info-delete--id-">
+                        <a href="#local-websites-info-management-DELETEapi-v1-web-info-delete--id-">Delete Website from our central Db.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="local-websites-info-management-POSTapi-v1-web-info-get-by-id">
+                        <a href="#local-websites-info-management-POSTapi-v1-web-info-get-by-id">Get website Info by ID.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="local-websites-info-management-POSTapi-v1-web-info-get-by-web-id--website-">
+                        <a href="#local-websites-info-management-POSTapi-v1-web-info-get-by-web-id--website-">Get website Info by website ID.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="local-websites-info-management-POSTapi-v1-web-info-get-by-param">
+                        <a href="#local-websites-info-management-POSTapi-v1-web-info-get-by-param">Get Website Info by any parameter.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="local-websites-info-management-GETapi-v1-web-info-list">
+                        <a href="#local-websites-info-management-GETapi-v1-web-info-list">List all the Websites Info in our system.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="local-websites-info-management-POSTapi-v1-web-info-get-selective-record">
+                        <a href="#local-websites-info-management-POSTapi-v1-web-info-get-selective-record">Get Selective Website Info.</a>
+                    </li>
+                                                    </ul>
+                            </ul>
+                    <ul id="tocify-header-6" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="local-websites-management">
+                    <a href="#local-websites-management">Local Websites Management</a>
+                </li>
+                                    <ul id="tocify-subheader-local-websites-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="local-websites-management-POSTapi-v1-website-add">
+                        <a href="#local-websites-management-POSTapi-v1-website-add">Add New Website.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="local-websites-management-PUTapi-v1-website-update--id-">
+                        <a href="#local-websites-management-PUTapi-v1-website-update--id-">Update any existing Website.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="local-websites-management-DELETEapi-v1-website-delete--id-">
+                        <a href="#local-websites-management-DELETEapi-v1-website-delete--id-">Delete Website from our central Db.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="local-websites-management-POSTapi-v1-website-get-by-id">
+                        <a href="#local-websites-management-POSTapi-v1-website-get-by-id">Get website by its ID.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="local-websites-management-POSTapi-v1-website-get-by-param">
+                        <a href="#local-websites-management-POSTapi-v1-website-get-by-param">Get Website by any parameter.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="local-websites-management-GETapi-v1-website-list">
+                        <a href="#local-websites-management-GETapi-v1-website-list">List all the Websites in our system.</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="local-websites-management-POSTapi-v1-website-get-selective-record">
+                        <a href="#local-websites-management-POSTapi-v1-website-get-selective-record">Get Selective Websites.</a>
+                    </li>
+                                                    </ul>
+                            </ul>
+        
+                        
+            </div>
+
+            <ul class="toc-footer" id="toc-footer">
+                            <li><a href="../docs/collection.json">View Postman collection</a></li>
+                            <li><a href="../docs/openapi.yaml">View OpenAPI spec</a></li>
+                            <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
+                    </ul>
+        <ul class="toc-footer" id="last-updated">
+        <li>Last updated: August 22 2022</li>
+    </ul>
+</div>
+
+<div class="page-wrapper">
+    <div class="dark-box"></div>
+    <div class="content">
+        <h1 id="introduction">Introduction</h1>
+<p>test description</p>
+<p>This documentation aims to provide all the information you need to work with our API.</p>
+<aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
+You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
+<blockquote>
+<p>Base URL</p>
+</blockquote>
+<pre><code class="language-yaml">http://localhost:8000/</code></pre>
+
+        <h1 id="authenticating-requests">Authenticating requests</h1>
+<p>Authenticate requests to this API's endpoints by sending an <strong><code>Authorization</code></strong> header with the value <strong><code>"Bearer {YOUR_AUTH_KEY}"</code></strong>.</p>
+<p>All authenticated endpoints are marked with a <code>requires authentication</code> badge in the documentation below.</p>
+<p>You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.</p>
+
+        <h1 id="city-and-state-management">City and State Management</h1>
+
+    
+
+            <h2 id="city-and-state-management-GETapi-v1-city-list">List all the Cities in our system.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-city-list">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/city/list"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/city/list"
+);
+
+fetch(url, {
+    method: "GET",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-city-list">
+    </span>
+<span id="execution-results-GETapi-v1-city-list" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-city-list"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-city-list"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-city-list" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-city-list"></code></pre>
+</span>
+<form id="form-GETapi-v1-city-list" data-method="GET"
+      data-path="api/v1/city/list"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-city-list', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-city-list"
+                    onclick="tryItOut('GETapi-v1-city-list');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-city-list"
+                    onclick="cancelTryOut('GETapi-v1-city-list');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-city-list" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/city/list</code></b>
+        </p>
+                    </form>
+
+            <h2 id="city-and-state-management-POSTapi-v1-city-get-by-state">Get Cities by State.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-city-get-by-state">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/city/get-by-state" \
+    --header "Content-Type: application/json" \
+    --data "{
+    \"state_id\": 6
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/city/get-by-state"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "state_id": 6
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-city-get-by-state">
+</span>
+<span id="execution-results-POSTapi-v1-city-get-by-state" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-city-get-by-state"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-city-get-by-state"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-city-get-by-state" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-city-get-by-state"></code></pre>
+</span>
+<form id="form-POSTapi-v1-city-get-by-state" data-method="POST"
+      data-path="api/v1/city/get-by-state"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-city-get-by-state', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-city-get-by-state"
+                    onclick="tryItOut('POSTapi-v1-city-get-by-state');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-city-get-by-state"
+                    onclick="cancelTryOut('POSTapi-v1-city-get-by-state');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-city-get-by-state" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/city/get-by-state</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>state_id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="state_id"
+               data-endpoint="POSTapi-v1-city-get-by-state"
+               value="6"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+            <h2 id="city-and-state-management-POSTapi-v1-city-add">Add New City.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-city-add">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/city/add"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/city/add"
+);
+
+fetch(url, {
+    method: "POST",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-city-add">
+</span>
+<span id="execution-results-POSTapi-v1-city-add" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-city-add"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-city-add"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-city-add" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-city-add"></code></pre>
+</span>
+<form id="form-POSTapi-v1-city-add" data-method="POST"
+      data-path="api/v1/city/add"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-city-add', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-city-add"
+                    onclick="tryItOut('POSTapi-v1-city-add');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-city-add"
+                    onclick="cancelTryOut('POSTapi-v1-city-add');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-city-add" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/city/add</code></b>
+        </p>
+                    </form>
+
+            <h2 id="city-and-state-management-PUTapi-v1-city-update--id-">Update any existing City.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-PUTapi-v1-city-update--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8000/api/v1/city/update/rerum"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/city/update/rerum"
+);
+
+fetch(url, {
+    method: "PUT",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-v1-city-update--id-">
+</span>
+<span id="execution-results-PUTapi-v1-city-update--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-v1-city-update--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-v1-city-update--id-"></code></pre>
+</span>
+<span id="execution-error-PUTapi-v1-city-update--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-v1-city-update--id-"></code></pre>
+</span>
+<form id="form-PUTapi-v1-city-update--id-" data-method="PUT"
+      data-path="api/v1/city/update/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-v1-city-update--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-v1-city-update--id-"
+                    onclick="tryItOut('PUTapi-v1-city-update--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-v1-city-update--id-"
+                    onclick="cancelTryOut('PUTapi-v1-city-update--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-v1-city-update--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/v1/city/update/{id}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="id"
+               data-endpoint="PUTapi-v1-city-update--id-"
+               value="rerum"
+               data-component="url" hidden>
+    <br>
+
+            </p>
+                    </form>
+
+            <h2 id="city-and-state-management-DELETEapi-v1-city-delete--id-">Soft-delete a City from our Db.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-DELETEapi-v1-city-delete--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/v1/city/delete/et" \
+    --header "Content-Type: application/json" \
+    --data "{
+    \"deleted_by\": 13,
+    \"deleted_ip\": \"157.207.102.218\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/city/delete/et"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "deleted_by": 13,
+    "deleted_ip": "157.207.102.218"
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-v1-city-delete--id-">
+</span>
+<span id="execution-results-DELETEapi-v1-city-delete--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-v1-city-delete--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-v1-city-delete--id-"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-v1-city-delete--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-v1-city-delete--id-"></code></pre>
+</span>
+<form id="form-DELETEapi-v1-city-delete--id-" data-method="DELETE"
+      data-path="api/v1/city/delete/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-v1-city-delete--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-v1-city-delete--id-"
+                    onclick="tryItOut('DELETEapi-v1-city-delete--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-v1-city-delete--id-"
+                    onclick="cancelTryOut('DELETEapi-v1-city-delete--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-v1-city-delete--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/v1/city/delete/{id}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="id"
+               data-endpoint="DELETEapi-v1-city-delete--id-"
+               value="et"
+               data-component="url" hidden>
+    <br>
+
+            </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>deleted_by</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="deleted_by"
+               data-endpoint="DELETEapi-v1-city-delete--id-"
+               value="13"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+                <p>
+            <b><code>deleted_ip</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="deleted_ip"
+               data-endpoint="DELETEapi-v1-city-delete--id-"
+               value="157.207.102.218"
+               data-component="body" hidden>
+    <br>
+<p>Must be a valid IP address.</p>
+        </p>
+        </form>
+
+            <h2 id="city-and-state-management-GETapi-v1-state-list">List all the States in our system.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-state-list">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/state/list"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/state/list"
+);
+
+fetch(url, {
+    method: "GET",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-state-list">
+    </span>
+<span id="execution-results-GETapi-v1-state-list" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-state-list"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-state-list"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-state-list" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-state-list"></code></pre>
+</span>
+<form id="form-GETapi-v1-state-list" data-method="GET"
+      data-path="api/v1/state/list"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-state-list', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-state-list"
+                    onclick="tryItOut('GETapi-v1-state-list');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-state-list"
+                    onclick="cancelTryOut('GETapi-v1-state-list');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-state-list" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/state/list</code></b>
+        </p>
+                    </form>
+
+            <h2 id="city-and-state-management-POSTapi-v1-state-add">Add New State.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-state-add">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/state/add"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/state/add"
+);
+
+fetch(url, {
+    method: "POST",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-state-add">
+</span>
+<span id="execution-results-POSTapi-v1-state-add" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-state-add"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-state-add"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-state-add" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-state-add"></code></pre>
+</span>
+<form id="form-POSTapi-v1-state-add" data-method="POST"
+      data-path="api/v1/state/add"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-state-add', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-state-add"
+                    onclick="tryItOut('POSTapi-v1-state-add');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-state-add"
+                    onclick="cancelTryOut('POSTapi-v1-state-add');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-state-add" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/state/add</code></b>
+        </p>
+                    </form>
+
+        <h1 id="websites-configuration-management">Websites Configuration Management</h1>
+
+    
+
+            <h2 id="websites-configuration-management-POSTapi-v1-web-config-add">Add New Website&#039;s Configuration.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-web-config-add">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/web-config/add"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-config/add"
+);
+
+fetch(url, {
+    method: "POST",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-web-config-add">
+</span>
+<span id="execution-results-POSTapi-v1-web-config-add" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-web-config-add"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-web-config-add"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-web-config-add" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-web-config-add"></code></pre>
+</span>
+<form id="form-POSTapi-v1-web-config-add" data-method="POST"
+      data-path="api/v1/web-config/add"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-web-config-add', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-web-config-add"
+                    onclick="tryItOut('POSTapi-v1-web-config-add');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-web-config-add"
+                    onclick="cancelTryOut('POSTapi-v1-web-config-add');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-web-config-add" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/web-config/add</code></b>
+        </p>
+                    </form>
+
+            <h2 id="websites-configuration-management-PUTapi-v1-web-config-update--id-">Update any existing Website Configuration.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-PUTapi-v1-web-config-update--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8000/api/v1/web-config/update/ducimus"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-config/update/ducimus"
+);
+
+fetch(url, {
+    method: "PUT",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-v1-web-config-update--id-">
+</span>
+<span id="execution-results-PUTapi-v1-web-config-update--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-v1-web-config-update--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-v1-web-config-update--id-"></code></pre>
+</span>
+<span id="execution-error-PUTapi-v1-web-config-update--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-v1-web-config-update--id-"></code></pre>
+</span>
+<form id="form-PUTapi-v1-web-config-update--id-" data-method="PUT"
+      data-path="api/v1/web-config/update/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-v1-web-config-update--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-v1-web-config-update--id-"
+                    onclick="tryItOut('PUTapi-v1-web-config-update--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-v1-web-config-update--id-"
+                    onclick="cancelTryOut('PUTapi-v1-web-config-update--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-v1-web-config-update--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/v1/web-config/update/{id}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="id"
+               data-endpoint="PUTapi-v1-web-config-update--id-"
+               value="ducimus"
+               data-component="url" hidden>
+    <br>
+
+            </p>
+                    </form>
+
+            <h2 id="websites-configuration-management-DELETEapi-v1-web-config-delete--id-">Soft-delete a Website Configuration from our Db.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-DELETEapi-v1-web-config-delete--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/v1/web-config/delete/corporis"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-config/delete/corporis"
+);
+
+fetch(url, {
+    method: "DELETE",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-v1-web-config-delete--id-">
+</span>
+<span id="execution-results-DELETEapi-v1-web-config-delete--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-v1-web-config-delete--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-v1-web-config-delete--id-"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-v1-web-config-delete--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-v1-web-config-delete--id-"></code></pre>
+</span>
+<form id="form-DELETEapi-v1-web-config-delete--id-" data-method="DELETE"
+      data-path="api/v1/web-config/delete/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-v1-web-config-delete--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-v1-web-config-delete--id-"
+                    onclick="tryItOut('DELETEapi-v1-web-config-delete--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-v1-web-config-delete--id-"
+                    onclick="cancelTryOut('DELETEapi-v1-web-config-delete--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-v1-web-config-delete--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/v1/web-config/delete/{id}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="id"
+               data-endpoint="DELETEapi-v1-web-config-delete--id-"
+               value="corporis"
+               data-component="url" hidden>
+    <br>
+
+            </p>
+                    </form>
+
+            <h2 id="websites-configuration-management-POSTapi-v1-web-config-get-by-id">Get website Configuration by its ID.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-web-config-get-by-id">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/web-config/get-by-id" \
+    --header "Content-Type: application/json" \
+    --data "{
+    \"id\": 18
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-config/get-by-id"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "id": 18
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-web-config-get-by-id">
+</span>
+<span id="execution-results-POSTapi-v1-web-config-get-by-id" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-web-config-get-by-id"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-web-config-get-by-id"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-web-config-get-by-id" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-web-config-get-by-id"></code></pre>
+</span>
+<form id="form-POSTapi-v1-web-config-get-by-id" data-method="POST"
+      data-path="api/v1/web-config/get-by-id"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-web-config-get-by-id', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-web-config-get-by-id"
+                    onclick="tryItOut('POSTapi-v1-web-config-get-by-id');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-web-config-get-by-id"
+                    onclick="cancelTryOut('POSTapi-v1-web-config-get-by-id');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-web-config-get-by-id" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/web-config/get-by-id</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="POSTapi-v1-web-config-get-by-id"
+               value="18"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+            <h2 id="websites-configuration-management-POSTapi-v1-web-config-get-by-param">Get Website Configuration by any parameter.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-web-config-get-by-param">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/web-config/get-by-param" \
+    --header "Content-Type: application/json" \
+    --data "{
+    \"key\": \"exercitationem\",
+    \"value\": \"asperiores\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-config/get-by-param"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "key": "exercitationem",
+    "value": "asperiores"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-web-config-get-by-param">
+</span>
+<span id="execution-results-POSTapi-v1-web-config-get-by-param" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-web-config-get-by-param"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-web-config-get-by-param"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-web-config-get-by-param" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-web-config-get-by-param"></code></pre>
+</span>
+<form id="form-POSTapi-v1-web-config-get-by-param" data-method="POST"
+      data-path="api/v1/web-config/get-by-param"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-web-config-get-by-param', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-web-config-get-by-param"
+                    onclick="tryItOut('POSTapi-v1-web-config-get-by-param');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-web-config-get-by-param"
+                    onclick="cancelTryOut('POSTapi-v1-web-config-get-by-param');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-web-config-get-by-param" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/web-config/get-by-param</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>key</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="key"
+               data-endpoint="POSTapi-v1-web-config-get-by-param"
+               value="exercitationem"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+                <p>
+            <b><code>value</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="value"
+               data-endpoint="POSTapi-v1-web-config-get-by-param"
+               value="asperiores"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+            <h2 id="websites-configuration-management-POSTapi-v1-web-config-get-selective-record">Get Selected Website Configuration Data.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-web-config-get-selective-record">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/web-config/get-selective-record" \
+    --header "Content-Type: application/json" \
+    --data "{
+    \"indexes\": \"ut\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-config/get-selective-record"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "indexes": "ut"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-web-config-get-selective-record">
+</span>
+<span id="execution-results-POSTapi-v1-web-config-get-selective-record" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-web-config-get-selective-record"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-web-config-get-selective-record"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-web-config-get-selective-record" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-web-config-get-selective-record"></code></pre>
+</span>
+<form id="form-POSTapi-v1-web-config-get-selective-record" data-method="POST"
+      data-path="api/v1/web-config/get-selective-record"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-web-config-get-selective-record', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-web-config-get-selective-record"
+                    onclick="tryItOut('POSTapi-v1-web-config-get-selective-record');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-web-config-get-selective-record"
+                    onclick="cancelTryOut('POSTapi-v1-web-config-get-selective-record');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-web-config-get-selective-record" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/web-config/get-selective-record</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>indexes</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="indexes"
+               data-endpoint="POSTapi-v1-web-config-get-selective-record"
+               value="ut"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+            <h2 id="websites-configuration-management-GETapi-v1-web-config-list">List all the Websites Configurations in our system.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-web-config-list">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/web-config/list"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-config/list"
+);
+
+fetch(url, {
+    method: "GET",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-web-config-list">
+    </span>
+<span id="execution-results-GETapi-v1-web-config-list" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-web-config-list"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-web-config-list"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-web-config-list" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-web-config-list"></code></pre>
+</span>
+<form id="form-GETapi-v1-web-config-list" data-method="GET"
+      data-path="api/v1/web-config/list"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-web-config-list', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-web-config-list"
+                    onclick="tryItOut('GETapi-v1-web-config-list');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-web-config-list"
+                    onclick="cancelTryOut('GETapi-v1-web-config-list');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-web-config-list" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/web-config/list</code></b>
+        </p>
+                    </form>
+
+        <h1 id="authentication-jwt">Authentication (JWT)</h1>
+
+    
+
+            <h2 id="authentication-jwt-POSTapi-v1-auth-login">Get a JWT via given credentials.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-auth-login">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/auth/login" \
+    --header "Content-Type: application/json" \
+    --data "{
+    \"username\": \"prakkuxtzrqosysrlysbkaqqiyvrtiamgpwmggpnofwbopnyonyvllwymtutbrclpmsojydwecinfxbclrsijksohqheqjrnfswrzlwqvqectjgvfxcvcsnlbbbqkpfifunbruehanoineageqnvpoejzkmvjjsbbzmtsclwusjhphhrvesukrbqgkkhuqujrxhujlwjidhfdzuzghbzkpdsorn\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/auth/login"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "username": "prakkuxtzrqosysrlysbkaqqiyvrtiamgpwmggpnofwbopnyonyvllwymtutbrclpmsojydwecinfxbclrsijksohqheqjrnfswrzlwqvqectjgvfxcvcsnlbbbqkpfifunbruehanoineageqnvpoejzkmvjjsbbzmtsclwusjhphhrvesukrbqgkkhuqujrxhujlwjidhfdzuzghbzkpdsorn"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-auth-login">
+</span>
+<span id="execution-results-POSTapi-v1-auth-login" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-auth-login"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-auth-login"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-auth-login" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-auth-login"></code></pre>
+</span>
+<form id="form-POSTapi-v1-auth-login" data-method="POST"
+      data-path="api/v1/auth/login"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-auth-login', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-auth-login"
+                    onclick="tryItOut('POSTapi-v1-auth-login');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-auth-login"
+                    onclick="cancelTryOut('POSTapi-v1-auth-login');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-auth-login" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/auth/login</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>username</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="username"
+               data-endpoint="POSTapi-v1-auth-login"
+               value="prakkuxtzrqosysrlysbkaqqiyvrtiamgpwmggpnofwbopnyonyvllwymtutbrclpmsojydwecinfxbclrsijksohqheqjrnfswrzlwqvqectjgvfxcvcsnlbbbqkpfifunbruehanoineageqnvpoejzkmvjjsbbzmtsclwusjhphhrvesukrbqgkkhuqujrxhujlwjidhfdzuzghbzkpdsorn"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 6 characters. Must not be greater than 255 characters.</p>
+        </p>
+        </form>
+
+            <h2 id="authentication-jwt-POSTapi-v1-auth-logout">Log the user out (Invalidate the token).</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-auth-logout">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/auth/logout"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/auth/logout"
+);
+
+fetch(url, {
+    method: "POST",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-auth-logout">
+</span>
+<span id="execution-results-POSTapi-v1-auth-logout" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-auth-logout"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-auth-logout"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-auth-logout" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-auth-logout"></code></pre>
+</span>
+<form id="form-POSTapi-v1-auth-logout" data-method="POST"
+      data-path="api/v1/auth/logout"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-auth-logout', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-auth-logout"
+                    onclick="tryItOut('POSTapi-v1-auth-logout');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-auth-logout"
+                    onclick="cancelTryOut('POSTapi-v1-auth-logout');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-auth-logout" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/auth/logout</code></b>
+        </p>
+                    </form>
+
+            <h2 id="authentication-jwt-POSTapi-v1-auth-profile">Get the authenticated User.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-auth-profile">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/auth/profile"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/auth/profile"
+);
+
+fetch(url, {
+    method: "POST",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-auth-profile">
+</span>
+<span id="execution-results-POSTapi-v1-auth-profile" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-auth-profile"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-auth-profile"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-auth-profile" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-auth-profile"></code></pre>
+</span>
+<form id="form-POSTapi-v1-auth-profile" data-method="POST"
+      data-path="api/v1/auth/profile"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-auth-profile', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-auth-profile"
+                    onclick="tryItOut('POSTapi-v1-auth-profile');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-auth-profile"
+                    onclick="cancelTryOut('POSTapi-v1-auth-profile');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-auth-profile" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/auth/profile</code></b>
+        </p>
+                    </form>
+
+            <h2 id="authentication-jwt-POSTapi-v1-auth-create">Create New Site Credentials.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-auth-create">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/auth/create" \
+    --header "Content-Type: application/json" \
+    --data "{
+    \"site_name\": \"sint\",
+    \"username\": \"ydhvqttdcwzjnufqqmedusmwenmveezdvyzuiupeoxyxtpzsyflyjbldfcfvxnisvernorgmblbrlajrhcgbnwqexltdhdtbfcosvnhffblmqiqnjevxnndxayeklokuijwtddebwrwzveogaznmyphfnjlagpdjusjvdddukymdbtl\",
+    \"password\": \"voluptas\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/auth/create"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "site_name": "sint",
+    "username": "ydhvqttdcwzjnufqqmedusmwenmveezdvyzuiupeoxyxtpzsyflyjbldfcfvxnisvernorgmblbrlajrhcgbnwqexltdhdtbfcosvnhffblmqiqnjevxnndxayeklokuijwtddebwrwzveogaznmyphfnjlagpdjusjvdddukymdbtl",
+    "password": "voluptas"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-auth-create">
+</span>
+<span id="execution-results-POSTapi-v1-auth-create" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-auth-create"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-auth-create"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-auth-create" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-auth-create"></code></pre>
+</span>
+<form id="form-POSTapi-v1-auth-create" data-method="POST"
+      data-path="api/v1/auth/create"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-auth-create', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-auth-create"
+                    onclick="tryItOut('POSTapi-v1-auth-create');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-auth-create"
+                    onclick="cancelTryOut('POSTapi-v1-auth-create');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-auth-create" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/auth/create</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>site_name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="site_name"
+               data-endpoint="POSTapi-v1-auth-create"
+               value="sint"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+                <p>
+            <b><code>username</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="username"
+               data-endpoint="POSTapi-v1-auth-create"
+               value="ydhvqttdcwzjnufqqmedusmwenmveezdvyzuiupeoxyxtpzsyflyjbldfcfvxnisvernorgmblbrlajrhcgbnwqexltdhdtbfcosvnhffblmqiqnjevxnndxayeklokuijwtddebwrwzveogaznmyphfnjlagpdjusjvdddukymdbtl"
+               data-component="body" hidden>
+    <br>
+<p>Must contain only letters, numbers, dashes and underscores. Must be at least 6 characters. Must not be greater than 255 characters.</p>
+        </p>
+                <p>
+            <b><code>password</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="password"
+               data-endpoint="POSTapi-v1-auth-create"
+               value="voluptas"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+            <h2 id="authentication-jwt-POSTapi-v1-auth-refresh-token">Refresh a token.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-auth-refresh-token">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/auth/refresh-token"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/auth/refresh-token"
+);
+
+fetch(url, {
+    method: "POST",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-auth-refresh-token">
+</span>
+<span id="execution-results-POSTapi-v1-auth-refresh-token" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-auth-refresh-token"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-auth-refresh-token"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-auth-refresh-token" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-auth-refresh-token"></code></pre>
+</span>
+<form id="form-POSTapi-v1-auth-refresh-token" data-method="POST"
+      data-path="api/v1/auth/refresh-token"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-auth-refresh-token', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-auth-refresh-token"
+                    onclick="tryItOut('POSTapi-v1-auth-refresh-token');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-auth-refresh-token"
+                    onclick="cancelTryOut('POSTapi-v1-auth-refresh-token');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-auth-refresh-token" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/auth/refresh-token</code></b>
+        </p>
+                    </form>
+
+        <h1 id="local-websites-info-management">Local Websites Info Management</h1>
+
+    
+
+            <h2 id="local-websites-info-management-POSTapi-v1-web-info-add">Add New Website&#039;s Info .</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-web-info-add">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/web-info/add"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-info/add"
+);
+
+fetch(url, {
+    method: "POST",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-web-info-add">
+</span>
+<span id="execution-results-POSTapi-v1-web-info-add" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-web-info-add"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-web-info-add"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-web-info-add" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-web-info-add"></code></pre>
+</span>
+<form id="form-POSTapi-v1-web-info-add" data-method="POST"
+      data-path="api/v1/web-info/add"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-web-info-add', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-web-info-add"
+                    onclick="tryItOut('POSTapi-v1-web-info-add');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-web-info-add"
+                    onclick="cancelTryOut('POSTapi-v1-web-info-add');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-web-info-add" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/web-info/add</code></b>
+        </p>
+                    </form>
+
+            <h2 id="local-websites-info-management-PUTapi-v1-web-info-update--id-">Update any existing Website Info.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-PUTapi-v1-web-info-update--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8000/api/v1/web-info/update/officiis"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-info/update/officiis"
+);
+
+fetch(url, {
+    method: "PUT",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-v1-web-info-update--id-">
+</span>
+<span id="execution-results-PUTapi-v1-web-info-update--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-v1-web-info-update--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-v1-web-info-update--id-"></code></pre>
+</span>
+<span id="execution-error-PUTapi-v1-web-info-update--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-v1-web-info-update--id-"></code></pre>
+</span>
+<form id="form-PUTapi-v1-web-info-update--id-" data-method="PUT"
+      data-path="api/v1/web-info/update/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-v1-web-info-update--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-v1-web-info-update--id-"
+                    onclick="tryItOut('PUTapi-v1-web-info-update--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-v1-web-info-update--id-"
+                    onclick="cancelTryOut('PUTapi-v1-web-info-update--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-v1-web-info-update--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/v1/web-info/update/{id}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="id"
+               data-endpoint="PUTapi-v1-web-info-update--id-"
+               value="officiis"
+               data-component="url" hidden>
+    <br>
+
+            </p>
+                    </form>
+
+            <h2 id="local-websites-info-management-DELETEapi-v1-web-info-delete--id-">Delete Website from our central Db.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-DELETEapi-v1-web-info-delete--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/v1/web-info/delete/sunt"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-info/delete/sunt"
+);
+
+fetch(url, {
+    method: "DELETE",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-v1-web-info-delete--id-">
+</span>
+<span id="execution-results-DELETEapi-v1-web-info-delete--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-v1-web-info-delete--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-v1-web-info-delete--id-"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-v1-web-info-delete--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-v1-web-info-delete--id-"></code></pre>
+</span>
+<form id="form-DELETEapi-v1-web-info-delete--id-" data-method="DELETE"
+      data-path="api/v1/web-info/delete/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-v1-web-info-delete--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-v1-web-info-delete--id-"
+                    onclick="tryItOut('DELETEapi-v1-web-info-delete--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-v1-web-info-delete--id-"
+                    onclick="cancelTryOut('DELETEapi-v1-web-info-delete--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-v1-web-info-delete--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/v1/web-info/delete/{id}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="id"
+               data-endpoint="DELETEapi-v1-web-info-delete--id-"
+               value="sunt"
+               data-component="url" hidden>
+    <br>
+
+            </p>
+                    </form>
+
+            <h2 id="local-websites-info-management-POSTapi-v1-web-info-get-by-id">Get website Info by ID.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-web-info-get-by-id">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/web-info/get-by-id" \
+    --header "Content-Type: application/json" \
+    --data "{
+    \"id\": 6
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-info/get-by-id"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "id": 6
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-web-info-get-by-id">
+</span>
+<span id="execution-results-POSTapi-v1-web-info-get-by-id" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-web-info-get-by-id"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-web-info-get-by-id"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-web-info-get-by-id" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-web-info-get-by-id"></code></pre>
+</span>
+<form id="form-POSTapi-v1-web-info-get-by-id" data-method="POST"
+      data-path="api/v1/web-info/get-by-id"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-web-info-get-by-id', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-web-info-get-by-id"
+                    onclick="tryItOut('POSTapi-v1-web-info-get-by-id');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-web-info-get-by-id"
+                    onclick="cancelTryOut('POSTapi-v1-web-info-get-by-id');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-web-info-get-by-id" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/web-info/get-by-id</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="POSTapi-v1-web-info-get-by-id"
+               value="6"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+            <h2 id="local-websites-info-management-POSTapi-v1-web-info-get-by-web-id--website-">Get website Info by website ID.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-web-info-get-by-web-id--website-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/web-info/get-by-web-id/aperiam"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-info/get-by-web-id/aperiam"
+);
+
+fetch(url, {
+    method: "POST",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-web-info-get-by-web-id--website-">
+</span>
+<span id="execution-results-POSTapi-v1-web-info-get-by-web-id--website-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-web-info-get-by-web-id--website-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-web-info-get-by-web-id--website-"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-web-info-get-by-web-id--website-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-web-info-get-by-web-id--website-"></code></pre>
+</span>
+<form id="form-POSTapi-v1-web-info-get-by-web-id--website-" data-method="POST"
+      data-path="api/v1/web-info/get-by-web-id/{website}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-web-info-get-by-web-id--website-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-web-info-get-by-web-id--website-"
+                    onclick="tryItOut('POSTapi-v1-web-info-get-by-web-id--website-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-web-info-get-by-web-id--website-"
+                    onclick="cancelTryOut('POSTapi-v1-web-info-get-by-web-id--website-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-web-info-get-by-web-id--website-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/web-info/get-by-web-id/{website}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>website</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="website"
+               data-endpoint="POSTapi-v1-web-info-get-by-web-id--website-"
+               value="aperiam"
+               data-component="url" hidden>
+    <br>
+
+            </p>
+                    </form>
+
+            <h2 id="local-websites-info-management-POSTapi-v1-web-info-get-by-param">Get Website Info by any parameter.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-web-info-get-by-param">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/web-info/get-by-param" \
+    --header "Content-Type: application/json" \
+    --data "{
+    \"key\": \"officiis\",
+    \"value\": \"dicta\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-info/get-by-param"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "key": "officiis",
+    "value": "dicta"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-web-info-get-by-param">
+</span>
+<span id="execution-results-POSTapi-v1-web-info-get-by-param" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-web-info-get-by-param"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-web-info-get-by-param"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-web-info-get-by-param" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-web-info-get-by-param"></code></pre>
+</span>
+<form id="form-POSTapi-v1-web-info-get-by-param" data-method="POST"
+      data-path="api/v1/web-info/get-by-param"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-web-info-get-by-param', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-web-info-get-by-param"
+                    onclick="tryItOut('POSTapi-v1-web-info-get-by-param');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-web-info-get-by-param"
+                    onclick="cancelTryOut('POSTapi-v1-web-info-get-by-param');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-web-info-get-by-param" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/web-info/get-by-param</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>key</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="key"
+               data-endpoint="POSTapi-v1-web-info-get-by-param"
+               value="officiis"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+                <p>
+            <b><code>value</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="value"
+               data-endpoint="POSTapi-v1-web-info-get-by-param"
+               value="dicta"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+            <h2 id="local-websites-info-management-GETapi-v1-web-info-list">List all the Websites Info in our system.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-web-info-list">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/web-info/list"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-info/list"
+);
+
+fetch(url, {
+    method: "GET",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-web-info-list">
+    </span>
+<span id="execution-results-GETapi-v1-web-info-list" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-web-info-list"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-web-info-list"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-web-info-list" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-web-info-list"></code></pre>
+</span>
+<form id="form-GETapi-v1-web-info-list" data-method="GET"
+      data-path="api/v1/web-info/list"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-web-info-list', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-web-info-list"
+                    onclick="tryItOut('GETapi-v1-web-info-list');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-web-info-list"
+                    onclick="cancelTryOut('GETapi-v1-web-info-list');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-web-info-list" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/web-info/list</code></b>
+        </p>
+                    </form>
+
+            <h2 id="local-websites-info-management-POSTapi-v1-web-info-get-selective-record">Get Selective Website Info.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-web-info-get-selective-record">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/web-info/get-selective-record" \
+    --header "Content-Type: application/json" \
+    --data "{
+    \"indexes\": \"pariatur\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/web-info/get-selective-record"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "indexes": "pariatur"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-web-info-get-selective-record">
+</span>
+<span id="execution-results-POSTapi-v1-web-info-get-selective-record" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-web-info-get-selective-record"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-web-info-get-selective-record"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-web-info-get-selective-record" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-web-info-get-selective-record"></code></pre>
+</span>
+<form id="form-POSTapi-v1-web-info-get-selective-record" data-method="POST"
+      data-path="api/v1/web-info/get-selective-record"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-web-info-get-selective-record', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-web-info-get-selective-record"
+                    onclick="tryItOut('POSTapi-v1-web-info-get-selective-record');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-web-info-get-selective-record"
+                    onclick="cancelTryOut('POSTapi-v1-web-info-get-selective-record');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-web-info-get-selective-record" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/web-info/get-selective-record</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>indexes</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="indexes"
+               data-endpoint="POSTapi-v1-web-info-get-selective-record"
+               value="pariatur"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+        <h1 id="local-websites-management">Local Websites Management</h1>
+
+    
+
+            <h2 id="local-websites-management-POSTapi-v1-website-add">Add New Website.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-website-add">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/website/add"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/website/add"
+);
+
+fetch(url, {
+    method: "POST",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-website-add">
+</span>
+<span id="execution-results-POSTapi-v1-website-add" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-website-add"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-website-add"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-website-add" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-website-add"></code></pre>
+</span>
+<form id="form-POSTapi-v1-website-add" data-method="POST"
+      data-path="api/v1/website/add"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-website-add', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-website-add"
+                    onclick="tryItOut('POSTapi-v1-website-add');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-website-add"
+                    onclick="cancelTryOut('POSTapi-v1-website-add');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-website-add" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/website/add</code></b>
+        </p>
+                    </form>
+
+            <h2 id="local-websites-management-PUTapi-v1-website-update--id-">Update any existing Website.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-PUTapi-v1-website-update--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8000/api/v1/website/update/odio"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/website/update/odio"
+);
+
+fetch(url, {
+    method: "PUT",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-v1-website-update--id-">
+</span>
+<span id="execution-results-PUTapi-v1-website-update--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-v1-website-update--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-v1-website-update--id-"></code></pre>
+</span>
+<span id="execution-error-PUTapi-v1-website-update--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-v1-website-update--id-"></code></pre>
+</span>
+<form id="form-PUTapi-v1-website-update--id-" data-method="PUT"
+      data-path="api/v1/website/update/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-v1-website-update--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-v1-website-update--id-"
+                    onclick="tryItOut('PUTapi-v1-website-update--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-v1-website-update--id-"
+                    onclick="cancelTryOut('PUTapi-v1-website-update--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-v1-website-update--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/v1/website/update/{id}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="id"
+               data-endpoint="PUTapi-v1-website-update--id-"
+               value="odio"
+               data-component="url" hidden>
+    <br>
+
+            </p>
+                    </form>
+
+            <h2 id="local-websites-management-DELETEapi-v1-website-delete--id-">Delete Website from our central Db.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-DELETEapi-v1-website-delete--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/v1/website/delete/qui"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/website/delete/qui"
+);
+
+fetch(url, {
+    method: "DELETE",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-v1-website-delete--id-">
+</span>
+<span id="execution-results-DELETEapi-v1-website-delete--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-v1-website-delete--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-v1-website-delete--id-"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-v1-website-delete--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-v1-website-delete--id-"></code></pre>
+</span>
+<form id="form-DELETEapi-v1-website-delete--id-" data-method="DELETE"
+      data-path="api/v1/website/delete/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-v1-website-delete--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-v1-website-delete--id-"
+                    onclick="tryItOut('DELETEapi-v1-website-delete--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-v1-website-delete--id-"
+                    onclick="cancelTryOut('DELETEapi-v1-website-delete--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-v1-website-delete--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/v1/website/delete/{id}</code></b>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="id"
+               data-endpoint="DELETEapi-v1-website-delete--id-"
+               value="qui"
+               data-component="url" hidden>
+    <br>
+
+            </p>
+                    </form>
+
+            <h2 id="local-websites-management-POSTapi-v1-website-get-by-id">Get website by its ID.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-website-get-by-id">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/website/get-by-id" \
+    --header "Content-Type: application/json" \
+    --data "{
+    \"id\": 2
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/website/get-by-id"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "id": 2
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-website-get-by-id">
+</span>
+<span id="execution-results-POSTapi-v1-website-get-by-id" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-website-get-by-id"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-website-get-by-id"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-website-get-by-id" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-website-get-by-id"></code></pre>
+</span>
+<form id="form-POSTapi-v1-website-get-by-id" data-method="POST"
+      data-path="api/v1/website/get-by-id"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-website-get-by-id', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-website-get-by-id"
+                    onclick="tryItOut('POSTapi-v1-website-get-by-id');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-website-get-by-id"
+                    onclick="cancelTryOut('POSTapi-v1-website-get-by-id');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-website-get-by-id" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/website/get-by-id</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="POSTapi-v1-website-get-by-id"
+               value="2"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+            <h2 id="local-websites-management-POSTapi-v1-website-get-by-param">Get Website by any parameter.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-website-get-by-param">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/website/get-by-param" \
+    --header "Content-Type: application/json" \
+    --data "{
+    \"key\": \"natus\",
+    \"value\": \"commodi\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/website/get-by-param"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "key": "natus",
+    "value": "commodi"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-website-get-by-param">
+</span>
+<span id="execution-results-POSTapi-v1-website-get-by-param" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-website-get-by-param"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-website-get-by-param"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-website-get-by-param" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-website-get-by-param"></code></pre>
+</span>
+<form id="form-POSTapi-v1-website-get-by-param" data-method="POST"
+      data-path="api/v1/website/get-by-param"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-website-get-by-param', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-website-get-by-param"
+                    onclick="tryItOut('POSTapi-v1-website-get-by-param');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-website-get-by-param"
+                    onclick="cancelTryOut('POSTapi-v1-website-get-by-param');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-website-get-by-param" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/website/get-by-param</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>key</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="key"
+               data-endpoint="POSTapi-v1-website-get-by-param"
+               value="natus"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+                <p>
+            <b><code>value</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="value"
+               data-endpoint="POSTapi-v1-website-get-by-param"
+               value="commodi"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+            <h2 id="local-websites-management-GETapi-v1-website-list">List all the Websites in our system.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-website-list">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/website/list"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/website/list"
+);
+
+fetch(url, {
+    method: "GET",
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-website-list">
+    </span>
+<span id="execution-results-GETapi-v1-website-list" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-website-list"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-website-list"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-website-list" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-website-list"></code></pre>
+</span>
+<form id="form-GETapi-v1-website-list" data-method="GET"
+      data-path="api/v1/website/list"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='[]'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-website-list', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-website-list"
+                    onclick="tryItOut('GETapi-v1-website-list');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-website-list"
+                    onclick="cancelTryOut('GETapi-v1-website-list');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-website-list" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/website/list</code></b>
+        </p>
+                    </form>
+
+            <h2 id="local-websites-management-POSTapi-v1-website-get-selective-record">Get Selective Websites.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-website-get-selective-record">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/website/get-selective-record" \
+    --header "Content-Type: application/json" \
+    --data "{
+    \"indexes\": \"temporibus\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/website/get-selective-record"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "indexes": "temporibus"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-website-get-selective-record">
+</span>
+<span id="execution-results-POSTapi-v1-website-get-selective-record" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-website-get-selective-record"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-website-get-selective-record"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-website-get-selective-record" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-website-get-selective-record"></code></pre>
+</span>
+<form id="form-POSTapi-v1-website-get-selective-record" data-method="POST"
+      data-path="api/v1/website/get-selective-record"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-website-get-selective-record', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-website-get-selective-record"
+                    onclick="tryItOut('POSTapi-v1-website-get-selective-record');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-website-get-selective-record"
+                    onclick="cancelTryOut('POSTapi-v1-website-get-selective-record');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-website-get-selective-record" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/website/get-selective-record</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>indexes</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="indexes"
+               data-endpoint="POSTapi-v1-website-get-selective-record"
+               value="temporibus"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+    
+
+        
+    </div>
+    <div class="dark-box">
+                    <div class="lang-selector">
+                                                        <button type="button" class="lang-button" data-language-name="bash">bash</button>
+                                                        <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
+                            </div>
+            </div>
+</div>
+</body>
+</html>

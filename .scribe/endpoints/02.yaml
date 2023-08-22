@@ -1,0 +1,175 @@
+name: 'Local Websites Info Management'
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/web-info/add
+    metadata:
+      title: "Add New Website's Info ."
+      description: ''
+      authenticated: false
+      custom: []
+    headers: []
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - PUT
+    uri: 'api/v1/web-info/update/{id}'
+    metadata:
+      title: 'Update any existing Website Info.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers: []
+    urlParameters:
+      id:
+        name: id
+        description: ''
+        required: true
+        example: officiis
+        type: string
+        custom: []
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/web-info/delete/{id}'
+    metadata:
+      title: 'Delete Website from our central Db.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers: []
+    urlParameters:
+      id:
+        name: id
+        description: ''
+        required: true
+        example: sunt
+        type: string
+        custom: []
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/web-info/get-by-id
+    metadata:
+      title: 'Get website Info by ID.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      id:
+        name: id
+        description: ''
+        required: true
+        example: 6
+        type: integer
+        custom: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: 'api/v1/web-info/get-by-web-id/{website}'
+    metadata:
+      title: 'Get website Info by website ID.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers: []
+    urlParameters:
+      website:
+        name: website
+        description: ''
+        required: true
+        example: aperiam
+        type: string
+        custom: []
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/web-info/get-by-param
+    metadata:
+      title: 'Get Website Info by any parameter.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      key:
+        name: key
+        description: ''
+        required: true
+        example: officiis
+        type: string
+        custom: []
+      value:
+        name: value
+        description: ''
+        required: true
+        example: dicta
+        type: string
+        custom: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/web-info/list
+    metadata:
+      title: 'List all the Websites Info in our system.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers: []
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/web-info/get-selective-record
+    metadata:
+      title: 'Get Selective Website Info.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      indexes:
+        name: indexes
+        description: ''
+        required: true
+        example: pariatur
+        type: string
+        custom: []
+    responses: []
+    responseFields: []
