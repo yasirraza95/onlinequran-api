@@ -6,6 +6,7 @@ use App\Models\BloodRequest;
 use App\Models\BloodGroup;
 use App\Models\Namaz;
 use App\Models\Slider;
+use App\Models\Site;
 use App\Models\Subscription;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -515,6 +516,37 @@ class GeneralController extends Controller
 
         $data = [
             'response' => $result,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
+    public function getSiteInfo(Request $request)
+    {
+        $result = Site::first();
+
+        $counter = count($result);
+        $counter > 0 ? ($status = 200) : ($status = 404);
+
+        $data = [
+            'response' => $result,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
+    public function updateSiteInfo(Request $request)
+    {
+        $instance = Site::firstOrFail();
+        $update = ["email" => $request->email, "phone" => $request->phone ];
+        $instance->update($update);
+        
+        $status = 200;
+
+        $data = [
+            'response' => "Site info updated",
         ];
 
         $result = $this->successResponse($request, $data, $status);

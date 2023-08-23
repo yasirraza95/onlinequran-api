@@ -40,3 +40,6 @@ Route::post('sliders', 'GeneralController@addSlider');
 Route::get('namaz-timings', 'GeneralController@listNamazTimings');
 Route::get('namaz-timings/{id}', 'GeneralController@getNamazTimeById');
 Route::put('namaz-timings/{id}', 'GeneralController@updateNamazTimeById');
+
+Route::get('site-info', 'GeneralController@getSiteInfo');
+Route::put('site-info', 'GeneralController@updateSiteInfo');
