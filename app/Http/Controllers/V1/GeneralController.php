@@ -1083,7 +1083,7 @@ class GeneralController extends Controller
         $savePath = public_path('/upload/');
         $image->move($savePath, $imageName);
 
-        $insert = ['line1' => $request->line1, 'line2' => $request->line2,, 'image' => $imageName ];
+        $insert = ['line1' => $request->line1, 'line2' => $request->line2, 'image' => $imageName ];
         Slider::create($insert);
 
         $data = [
