@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Models\BloodRequest;
 use App\Models\BloodGroup;
+use App\Models\Slider;
 use App\Models\Subscription;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -489,9 +490,9 @@ class GeneralController extends Controller
         return $result;
     }
 
-    public function listBloodGp(Request $request)
+    public function listSliders(Request $request)
     {
-        $result = BloodGroup::get();
+        $result = Slider::get();
 
         $counter = count($result);
         $counter > 0 ? ($status = 200) : ($status = 404);
@@ -1062,6 +1063,31 @@ class GeneralController extends Controller
         $data = [
             'response' => "Profile updated",
             'name' => $imageName,
+        ];
+        $status = 200;
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
+    public function addSlider(Request $request)
+    {
+        $rules['image'] = 'required|image';
+        $rules['line1'] = 'required|string';
+        $rules['line2'] = 'required|string';
+        $this->validate($request, $rules);
+
+        $dateTime = date('Ymd_His');
+        $image = $request->file('image');
+        $imageName = $dateTime . '-' . $image->getClientOriginalName();
+        $savePath = public_path('/upload/');
+        $image->move($savePath, $imageName);
+
+        $insert = ['line1' => $request->line1, 'line2' => $request->line2,, 'image' => $imageName ];
+        Slider::create($insert);
+
+        $data = [
+            'response' => "Slider created",
         ];
         $status = 200;
 

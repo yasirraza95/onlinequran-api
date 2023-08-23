@@ -35,4 +35,4 @@ Route::get(
 );
 
 Route::get('sliders', 'GeneralController@listSliders');
-Route::post('sliders', 'GeneralController@addSliders');
+Route::post('sliders', 'GeneralController@addSlider');
