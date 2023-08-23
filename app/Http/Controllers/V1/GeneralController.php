@@ -46,7 +46,8 @@ class GeneralController extends Controller
             'password' => 'required'
         ]);
 
-        $user = User::where("username", $request->username)->where("password", addslashes($request->password))->where('user_type', '!=', 'admin')->first();
+        $user = User::where("username", $request->username)
+        ->where("password", addslashes($request->password))->first();
 
         $data = [
             "error" => "Unauthorized"
