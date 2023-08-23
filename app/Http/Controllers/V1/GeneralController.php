@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Models\BloodRequest;
 use App\Models\BloodGroup;
+use App\Models\Namaz;
 use App\Models\Slider;
 use App\Models\Subscription;
 use Carbon\Carbon;
@@ -505,6 +506,21 @@ class GeneralController extends Controller
         return $result;
     }
 
+    public function listNamazTimings(Request $request)
+    {
+        $result = Namaz::get();
+
+        $counter = count($result);
+        $counter > 0 ? ($status = 200) : ($status = 404);
+
+        $data = [
+            'response' => $result,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
     public function listVolunteers(Request $request)
     {
         $result = Volunteer::get();
@@ -942,6 +958,19 @@ class GeneralController extends Controller
         return $result;
     }
 
+    public function getNamazTimeById(Request $request)
+    {
+        $id = stripslashes($request->id);
+        $result = Namaz::findOrFail($id);
+
+        $status = 200;
+        $data = [
+            'response' => $result,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
 
     public function getBloodDonorById(Request $request)
     {
@@ -1349,6 +1378,22 @@ class GeneralController extends Controller
             $result = $this->successResponse($request, $data, $status);
             return $result;
         }
+    }
+
+    public function updateNamazTimeById(Request $request)
+    {
+        $instance = Namaz::findOrFail($request->id);
+        $update = ["time" => $request->time ];
+        $instance->update($update);
+
+        $status = 200;
+        $message = "Record updated";
+        $data = [
+            'response' => $message,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
     }
 
     public function deleteBloodReqById(Request $request)
