@@ -977,9 +977,23 @@ class GeneralController extends Controller
         return $result;
     }
 
-    public function requestCounter(Request $request)
+    public function serviceCounter(Request $request)
     {
-        $requests = BloodRequest::count();
+        $requests = Service::count();
+
+        $status = 200;
+
+        $data = [
+            'response' => $requests,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
+    public function sliderCounter(Request $request)
+    {
+        $requests = Slider::count();
 
         $status = 200;
 

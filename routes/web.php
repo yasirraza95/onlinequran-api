@@ -50,3 +50,6 @@ Route::post('service', 'GeneralController@addService');
 Route::get('service/{id}', 'GeneralController@getServiceById');
 Route::put('service/{id}', 'GeneralController@updateServiceById');
 Route::delete('service/{id}', 'GeneralController@deleteServiceById');
+
+Route::get('service-counter', 'GeneralController@serviceCounter');
+Route::get('slider-counter', 'GeneralController@sliderCounter');
