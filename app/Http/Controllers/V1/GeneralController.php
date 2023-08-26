@@ -1473,6 +1473,20 @@ class GeneralController extends Controller
         return $result;
     }
 
+    public function deleteSliderById(Request $request)
+    {
+        $result = Slider::findOrFail($request->id)->delete();
+
+        $status = 200;
+        $message = "Record deleted";
+        $data = [
+            'response' => $message,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
     public function deleteVolunteerById(Request $request)
     {
         $result = Volunteer::findOrFail($request->id)->delete();

@@ -36,6 +36,7 @@ Route::get(
 
 Route::get('sliders', 'GeneralController@listSliders');
 Route::post('sliders', 'GeneralController@addSlider');
+Route::delete('slider/{id}', 'GeneralController@deleteSliderById');
 
 Route::get('namaz-timings', 'GeneralController@listNamazTimings');
 Route::get('namaz-timings/{id}', 'GeneralController@getNamazTimeById');
