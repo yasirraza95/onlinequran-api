@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CityArea extends Model
+class Service extends Model
 {
     use SoftDeletes;
-    protected $table = "city_area";
+    protected $table = "services";
     public $timestamps = false;
     protected $primaryKey = 'id';
     protected $guarded = ['id'];

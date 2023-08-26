@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1;
 use App\Models\BloodRequest;
 use App\Models\BloodGroup;
 use App\Models\Namaz;
+use App\Models\Service;
 use App\Models\Slider;
 use App\Models\Site;
 use App\Models\Subscription;
@@ -542,7 +543,7 @@ class GeneralController extends Controller
         $instance = Site::firstOrFail();
         $update = ["email" => $request->email, "phone" => $request->phone ];
         $instance->update($update);
-        
+
         $status = 200;
 
         $data = [
@@ -553,9 +554,9 @@ class GeneralController extends Controller
         return $result;
     }
 
-    public function listVolunteers(Request $request)
+    public function listService(Request $request)
     {
-        $result = Volunteer::get();
+        $result = Service::get();
 
         $counter = count($result);
         $counter > 0 ? ($status = 200) : ($status = 404);
@@ -1004,6 +1005,20 @@ class GeneralController extends Controller
         return $result;
     }
 
+    public function getServiceById(Request $request)
+    {
+        $id = stripslashes($request->id);
+        $result = Service::findOrFail($id);
+
+        $status = 200;
+        $data = [
+            'response' => $result,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
     public function getBloodDonorById(Request $request)
     {
         $id = stripslashes($request->id);
@@ -1428,9 +1443,25 @@ class GeneralController extends Controller
         return $result;
     }
 
-    public function deleteBloodReqById(Request $request)
+    public function updateServiceById(Request $request)
     {
-        $result = BloodRequest::findOrFail($request->id)->delete();
+        $instance = Service::findOrFail($request->id);
+        $update = ["name" => $request->name, "description" => $request->description ];
+        $instance->update($update);
+
+        $status = 200;
+        $message = "Record updated";
+        $data = [
+            'response' => $message,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
+    public function deleteServiceById(Request $request)
+    {
+        $result = Service::findOrFail($request->id)->delete();
 
         $status = 200;
         $message = "Record deleted";
