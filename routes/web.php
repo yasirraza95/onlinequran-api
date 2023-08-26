@@ -20,6 +20,7 @@ $router->get('/version', function () use ($router) {
 
 Route::post('admin-login', 'GeneralController@login');
 Route::get('profile', 'GeneralController@profile');
+Route::post('update-admin-password/{id}', 'GeneralController@updateAdminPassword');
 Route::get('check-forgot/{token}', 'GeneralController@checkForgotToken');
 Route::get('check-username/{username}', 'GeneralController@checkUsernameExist');
 Route::get('check-email/{email}', 'GeneralController@checkEmailExist');
