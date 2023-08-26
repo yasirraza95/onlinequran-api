@@ -554,7 +554,7 @@ class GeneralController extends Controller
         return $result;
     }
 
-    public function listService(Request $request)
+    public function listServices(Request $request)
     {
         $result = Service::get();
 
