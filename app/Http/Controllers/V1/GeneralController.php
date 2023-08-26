@@ -525,10 +525,9 @@ class GeneralController extends Controller
 
     public function getSiteInfo(Request $request)
     {
-        $result = Site::first();
+        $result = Site::firstOrFail();
 
-        $counter = count($result);
-        $counter > 0 ? ($status = 200) : ($status = 404);
+        $status = 200;
 
         $data = [
             'response' => $result,
