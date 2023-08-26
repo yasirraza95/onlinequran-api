@@ -554,7 +554,7 @@ class GeneralController extends Controller
         return $result;
     }
 
-    public function listServices(Request $request)
+    public function listSliders(Request $request)
     {
         $result = Service::get();
 
