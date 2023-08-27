@@ -1579,7 +1579,7 @@ class GeneralController extends Controller
     public function sendEmailToUser($bodyText, $subject, $recipient)
     {
         try {
-            $sender = 'no-reply@onlineteachingquran.pk';
+            $sender = 'no-reply@sehatbooking.com';
             $site = 'Online Teaching Quran';
             // $recipient = "raza.yasir95@gmail.com";
 
