@@ -540,9 +540,10 @@ class GeneralController extends Controller
 
     public function getSunTime(Request $request)
     {
-        $result = Namaz::whereIn('id', [6,7])->firstOrFail();
+        $result = Namaz::whereIn('id', [6,7])->get();
 
-        $status = 200;
+        $counter = count($result);
+        $counter > 0 ? ($status = 200) : ($status = 404);
 
         $data = [
             'response' => $result,
