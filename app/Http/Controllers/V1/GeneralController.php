@@ -542,8 +542,7 @@ class GeneralController extends Controller
     {
         $result = Namaz::whereIn('id', [6,7])->firstOrFail();
 
-        $counter = count($result);
-        $counter > 0 ? ($status = 200) : ($status = 404);
+        $status = 200;
 
         $data = [
             'response' => $result,
