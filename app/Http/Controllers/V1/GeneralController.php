@@ -586,7 +586,7 @@ class GeneralController extends Controller
 
     public function listServices(Request $request)
     {
-        $result = Service::get();
+        $result = Service::orderBy('id', 'DESC')->get();
 
         $counter = count($result);
         $counter > 0 ? ($status = 200) : ($status = 404);
