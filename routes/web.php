@@ -56,3 +56,5 @@ Route::delete('service/{id}', 'GeneralController@deleteServiceById');
 
 Route::get('service-counter', 'GeneralController@serviceCounter');
 Route::get('slider-counter', 'GeneralController@sliderCounter');
+
+Route::post('contact', 'GeneralController@contactSubmit');
