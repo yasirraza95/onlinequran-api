@@ -1579,9 +1579,9 @@ class GeneralController extends Controller
     public function sendEmailToUser($bodyText, $subject, $recipient)
     {
         try {
-            $sender = 'no-reply@sehatbooking.com';
+            $sender = 'no-reply@onlineteachingquran.pk';
             $site = 'Online Teaching Quran';
-            $recipient = "raza.yasir95@gmail.com";
+            // $recipient = "raza.yasir95@gmail.com";
 
             Mail::send([], [], function ($message) use ($bodyText, $subject, $recipient, $sender, $site, ) {
                 $message->from($sender, $site);
