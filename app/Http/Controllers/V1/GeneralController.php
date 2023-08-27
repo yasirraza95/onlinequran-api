@@ -1223,7 +1223,7 @@ class GeneralController extends Controller
 
         $dateTime = date('Ymd_His');
         $insert = ['name' => $request->name, 'description' => $request->description, 'created_ip' => $request->ip() ];
-        Slider::create($insert);
+        Service::create($insert);
 
         $data = [
             'response' => "Service created",
