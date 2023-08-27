@@ -495,7 +495,7 @@ class GeneralController extends Controller
 
     public function listSliders(Request $request)
     {
-        $result = Slider::get();
+        $result = Slider::orderBy('id', 'DESC')->get();
 
         $counter = count($result);
         $counter > 0 ? ($status = 200) : ($status = 404);
