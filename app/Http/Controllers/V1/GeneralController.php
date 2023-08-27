@@ -538,6 +538,21 @@ class GeneralController extends Controller
         return $result;
     }
 
+    public function getSunTime(Request $request)
+    {
+        $result = Namaz::whereIn('id', [6,7])->firstOrFail();
+
+        $counter = count($result);
+        $counter > 0 ? ($status = 200) : ($status = 404);
+
+        $data = [
+            'response' => $result,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
     public function getSiteInfo(Request $request)
     {
         $result = Site::where('id', '1')->get();
