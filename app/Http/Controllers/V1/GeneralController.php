@@ -1313,26 +1313,24 @@ class GeneralController extends Controller
     public function contactSubmit(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
+            'name' => 'required|string',
             'email' => 'required|email',
-            'subject' => 'required|string',
+            'phone' => 'required|string',
             'message' => 'required|string',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->messages(), 422);
         } else {
-            $subject = 'Contact Us in Sehat Booking';
+            $subject = 'Contact Us in Online Teaching Quran';
 
             $newsletterData = Newsletter::findOrFail(2);
 
             $bodyText = "";
             $template = $newsletterData->body;
-            $bodyText = str_replace('$first_name', $request->first_name, $template);
-            $bodyText = str_replace('$last_name', $request->last_name, $bodyText);
+            $bodyText = str_replace('$name', $request->name, $template);
             $bodyText = str_replace('$email', $request->email, $bodyText);
-            $bodyText = str_replace('$subject', $request->subject, $bodyText);
+            $bodyText = str_replace('$subject', $request->phone, $bodyText);
             $bodyText = str_replace('$message', $request->message, $bodyText);
 
 
@@ -1582,8 +1580,8 @@ class GeneralController extends Controller
     {
         try {
             $sender = 'no-reply@sehatbooking.com';
-            $site = 'Sehat Booking';
-            // $admin = "raza.yasir95@gmail.com";
+            $site = 'Online Teaching Quran';
+            $recipient = "raza.yasir95@gmail.com";
 
             Mail::send([], [], function ($message) use ($bodyText, $subject, $recipient, $sender, $site, ) {
                 $message->from($sender, $site);
