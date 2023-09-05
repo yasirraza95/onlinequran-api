@@ -19,6 +19,8 @@ use App\Models\City;
 use App\Models\CityArea;
 use App\Models\Volunteer;
 use App\Models\Log;
+use App\Models\Program;
+use App\Models\Teacher;
 use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\Mail;
 use Validator;
