@@ -22,7 +22,7 @@ use App\Models\Log;
 use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\Mail;
 use Validator;
-use Hijrian;
+use Mohamedsabil83\LaravelHijrian\Facades\Hijrian;
  
 class GeneralController extends Controller
 {
