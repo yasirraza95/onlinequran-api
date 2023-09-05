@@ -71,6 +71,3 @@ Route::post('weekly-program', 'GeneralController@addProgram');
 Route::get('weekly-program/{id}', 'GeneralController@getProgramById');
 Route::put('weekly-program/{id}', 'GeneralController@updateProgramById');
 Route::delete('weekly-program/{id}', 'GeneralController@deleteProgramById');
-
-
-Route::get('current-date', 'GeneralController@getCurrentDate');

@@ -22,7 +22,6 @@ use App\Models\Log;
 use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\Mail;
 use Validator;
-use Alkoumi\LaravelHijriDate\Facades\Hijri;
  
 class GeneralController extends Controller
 {
@@ -1026,15 +1025,14 @@ class GeneralController extends Controller
 
     public function getCurrentDate(Request $request)
     {
-        $result = Hijrian::hijri();
-        $result2 = Hijrian::gregory();
+        $dt = Carbon::now();
 
-        $counter = count($result);
-        $counter > 0 ? ($status = 200) : ($status = 404);
+        $date = $dt->toHijri()->locale('ar')->isoFormat('LLLL'); 
+
+        $status = 200;
 
         $data = [
-            'hijri' => $result,
-            'gregorian' => $result2,
+            'hijri' => $date
         ];
 
         $result = $this->successResponse($request, $data, $status);
