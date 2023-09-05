@@ -58,3 +58,19 @@ Route::get('service-counter', 'GeneralController@serviceCounter');
 Route::get('slider-counter', 'GeneralController@sliderCounter');
 
 Route::post('contact', 'GeneralController@contactSubmit');
+
+// TODO
+Route::get('teachers', 'GeneralController@listTeachers');
+Route::post('teacher', 'GeneralController@addTeacher');
+Route::get('teacher/{id}', 'GeneralController@getTeacherById');
+Route::put('teacher/{id}', 'GeneralController@updateTeacherById');
+Route::delete('teacher/{id}', 'GeneralController@deleteTeacherById');
+
+Route::get('weekly-programs', 'GeneralController@listPrograms');
+Route::post('weekly-program', 'GeneralController@addProgram');
+Route::get('weekly-program/{id}', 'GeneralController@getProgramById');
+Route::put('weekly-program/{id}', 'GeneralController@updateProgramById');
+Route::delete('weekly-program/{id}', 'GeneralController@deleteProgramById');
+
+
+Route::get('current-date', 'GeneralController@getCurrentDate');

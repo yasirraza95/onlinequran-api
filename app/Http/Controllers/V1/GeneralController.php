@@ -22,6 +22,7 @@ use App\Models\Log;
 use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\Mail;
 use Validator;
+use Hijrian;
  
 class GeneralController extends Controller
 {
@@ -599,6 +600,36 @@ class GeneralController extends Controller
         return $result;
     }
 
+    public function listTeachers(Request $request)
+    {
+        $result = Teacher::orderBy('id', 'DESC')->get();
+
+        $counter = count($result);
+        $counter > 0 ? ($status = 200) : ($status = 404);
+
+        $data = [
+            'response' => $result,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
+    public function listPrograms(Request $request)
+    {
+        $result = Program::orderBy('id', 'DESC')->get();
+
+        $counter = count($result);
+        $counter > 0 ? ($status = 200) : ($status = 404);
+
+        $data = [
+            'response' => $result,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
     public function listAdminVolunteers(Request $request)
     {
         if (isset($request->page) && !empty($request->page)) {
@@ -993,6 +1024,23 @@ class GeneralController extends Controller
         return $result;
     }
 
+    public function getCurrentDate(Request $request)
+    {
+        $result = Hijrian::hijri();
+        $result2 = Hijrian::gregory();
+
+        $counter = count($result);
+        $counter > 0 ? ($status = 200) : ($status = 404);
+
+        $data = [
+            'hijri' => $result,
+            'gregorian' => $result2,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
     public function donorCounter(Request $request)
     {
         $donors = User::whereIn('user_type', ['donor', 'both'])->count();
@@ -1039,6 +1087,35 @@ class GeneralController extends Controller
     {
         $id = stripslashes($request->id);
         $result = Namaz::findOrFail($id);
+
+        $status = 200;
+        $data = [
+            'response' => $result,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
+    public function getTeacherById(Request $request)
+    {
+        $id = stripslashes($request->id);
+        $result = Teacher::findOrFail($id);
+
+        $status = 200;
+        $data = [
+            'response' => $result,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
+
+    public function getProgramById(Request $request)
+    {
+        $id = stripslashes($request->id);
+        $result = Program::findOrFail($id);
 
         $status = 200;
         $data = [
@@ -1101,6 +1178,60 @@ class GeneralController extends Controller
     {
         $id = $request->id;
         $instance = User::findOrFail($id);
+
+        // $rules = User::validationRules();
+        $rules['updated_by'] = 'required|int|exists:users,id';
+        $rules['updated_ip'] = 'required|ip';
+
+        $this->validate($request, $rules);
+        $instance->update($request->all());
+
+        $data = [
+            'response' => $instance,
+        ];
+
+        $result = $this->successResponse($request, $data, 200);
+        return $result;
+    }
+
+    public function updateTeacherById(Request $request)
+    {
+        $id = $request->id;
+        $instance = Teacher::findOrFail($id);
+
+        // $rules = User::validationRules();
+        $rules['image'] = 'required|image';
+        $rules['name'] = 'required|string';
+        $rules['designation'] = 'required|string';
+        // $rules['updated_by'] = 'required|int|exists:users,id';
+        // $rules['updated_ip'] = 'required|ip';
+
+        $this->validate($request, $rules);
+
+        $update = ["name" => $request->name, "image" => $request->image, "designation" => $request->designation, "updated_ip" => $request->ip() ];
+        if($request->image) {
+            $dateTime = date('Ymd_His');
+            $image = $request->file('image');
+            $imageName = $dateTime . '-' . $image->getClientOriginalName();
+            $savePath = public_path('/upload/');
+            $image->move($savePath, $imageName);
+            $update['image'] = $imageName;
+        }
+
+        $instance->update($update);
+
+        $data = [
+            'response' => $instance,
+        ];
+
+        $result = $this->successResponse($request, $data, 200);
+        return $result;
+    }
+
+    public function updateProgramById(Request $request)
+    {
+        $id = $request->id;
+        $instance = Program::findOrFail($id);
 
         // $rules = User::validationRules();
         $rules['updated_by'] = 'required|int|exists:users,id';
@@ -1208,6 +1339,31 @@ class GeneralController extends Controller
 
         $data = [
             'response' => "Slider created",
+        ];
+        $status = 200;
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
+    public function addTeacher(Request $request)
+    {
+        $rules['image'] = 'required|image';
+        $rules['name'] = 'required|string';
+        $rules['designation'] = 'required|string';
+        $this->validate($request, $rules);
+
+        $dateTime = date('Ymd_His');
+        $image = $request->file('image');
+        $imageName = $dateTime . '-' . $image->getClientOriginalName();
+        $savePath = public_path('/upload/');
+        $image->move($savePath, $imageName);
+
+        $insert = ['name' => $request->name, 'designation' => $request->designation, 'image' => $imageName, 'created_ip' => $request->ip() ];
+        Teacher::create($insert);
+
+        $data = [
+            'response' => "Teacher created",
         ];
         $status = 200;
 
@@ -1523,6 +1679,34 @@ class GeneralController extends Controller
     public function deleteServiceById(Request $request)
     {
         $result = Service::findOrFail($request->id)->delete();
+
+        $status = 200;
+        $message = "Record deleted";
+        $data = [
+            'response' => $message,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
+    public function deleteTeacherById(Request $request)
+    {
+        $result = Teacher::findOrFail($request->id)->delete();
+
+        $status = 200;
+        $message = "Record deleted";
+        $data = [
+            'response' => $message,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
+    public function deleteProgramById(Request $request)
+    {
+        $result = Program::findOrFail($request->id)->delete();
 
         $status = 200;
         $message = "Record deleted";
