@@ -1390,6 +1390,25 @@ class GeneralController extends Controller
         return $result;
     }
 
+    public function addProgram(Request $request)
+    {
+        $rules['name'] = 'required|string';
+        $rules['description'] = 'required|string';
+        $this->validate($request, $rules);
+
+        $dateTime = date('Ymd_His');
+        $insert = ['name' => $request->name, 'description' => $request->description, 'created_ip' => $request->ip() ];
+        Program::create($insert);
+
+        $data = [
+            'response' => "Program created",
+        ];
+        $status = 200;
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
     public function addVolunteer(Request $request)
     {
         $instance = User::select('id')->where('user_type', 'admin')->first();
