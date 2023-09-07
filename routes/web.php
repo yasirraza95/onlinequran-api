@@ -63,7 +63,7 @@ Route::post('contact', 'GeneralController@contactSubmit');
 Route::get('teachers', 'GeneralController@listTeachers');
 Route::post('teacher', 'GeneralController@addTeacher');
 Route::get('teacher/{id}', 'GeneralController@getTeacherById');
-Route::put('teacher/{id}', 'GeneralController@updateTeacherById');
+Route::post('teacher/{id}', 'GeneralController@updateTeacherById');
 Route::delete('teacher/{id}', 'GeneralController@deleteTeacherById');
 
 Route::get('weekly-programs', 'GeneralController@listPrograms');
