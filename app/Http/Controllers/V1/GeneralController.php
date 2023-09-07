@@ -1200,7 +1200,7 @@ class GeneralController extends Controller
         $instance = Teacher::findOrFail($id);
 
         // $rules = User::validationRules();
-        $rules['image'] = 'required|image';
+        // $rules['image'] = 'required|image';
         $rules['name'] = 'required|string';
         $rules['designation'] = 'required|string';
         // $rules['updated_by'] = 'required|int|exists:users,id';
@@ -1208,14 +1208,15 @@ class GeneralController extends Controller
 
         $this->validate($request, $rules);
 
-        $update = ["name" => $request->name, "image" => $request->image, "designation" => $request->designation, "updated_ip" => $request->ip() ];
-        if($request->image) {
+        $update = ["name" => $request->name, "designation" => $request->designation, "updated_ip" => $request->ip() ];
+        
+        if($request->file('image')) {
             $dateTime = date('Ymd_His');
             $image = $request->file('image');
             $imageName = $dateTime . '-' . $image->getClientOriginalName();
             $savePath = public_path('/upload/');
             $image->move($savePath, $imageName);
-            $update['image'] = $imageName;
+            $update["image"] = $imageName;
         }
 
         $instance->update($update);
