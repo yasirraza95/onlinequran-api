@@ -1359,7 +1359,8 @@ class GeneralController extends Controller
         $savePath = public_path('/upload/');
         $image->move($savePath, $imageName);
 
-        $insert = ['name' => $request->name, 'designation' => $request->designation, 'image' => $imageName, 'created_ip' => $request->ip() ];
+        $insert = ['name' => $request->name, 'designation' => $request->designation, 'image' => $imageName,
+        "x" => $request->x, "youtube" => $request->yt, "fb" => $request->fb, 'created_ip' => $request->ip() ];
         Teacher::create($insert);
 
         $data = [
