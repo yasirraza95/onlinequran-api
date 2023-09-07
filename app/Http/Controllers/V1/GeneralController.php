@@ -1360,7 +1360,7 @@ class GeneralController extends Controller
         $image->move($savePath, $imageName);
 
         $insert = ['name' => $request->name, 'designation' => $request->designation, 'image' => $imageName,
-        "x" => $request->x, "youtube" => $request->yt, "fb" => $request->fb, 'created_ip' => $request->ip() ];
+        "x" => $request->x, "youtube" => $request->youtube, "fb" => $request->fb, 'created_ip' => $request->ip() ];
         Teacher::create($insert);
 
         $data = [
