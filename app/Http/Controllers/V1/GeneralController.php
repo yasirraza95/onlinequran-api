@@ -1209,7 +1209,19 @@ class GeneralController extends Controller
         $this->validate($request, $rules);
 
         $update = ["name" => $request->name, "designation" => $request->designation, "updated_ip" => $request->ip() ];
-        
+
+        if($request->x) {
+            $update['x'] = $request->x;
+        }
+
+        if($request->youtube) {
+            $update['youtube'] = $request->youtube;
+        }
+
+        if($request->fb) {
+            $update['fb'] = $request->fb;
+        }
+
         if($request->file('image')) {
             $dateTime = date('Ymd_His');
             $image = $request->file('image');
