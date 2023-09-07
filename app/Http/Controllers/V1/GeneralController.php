@@ -1247,11 +1247,14 @@ class GeneralController extends Controller
         $instance = Program::findOrFail($id);
 
         // $rules = User::validationRules();
-        $rules['updated_by'] = 'required|int|exists:users,id';
-        $rules['updated_ip'] = 'required|ip';
+        $rules['description'] = 'required|string';
+        $rules['name'] = 'required|string';
 
         $this->validate($request, $rules);
-        $instance->update($request->all());
+
+        $update = ["description" => $request->description, "name" => $request->name, "updated_ip" => $request->ip() ];
+
+        $instance->update($update);
 
         $data = [
             'response' => $instance,
