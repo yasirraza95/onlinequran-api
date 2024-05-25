@@ -27,9 +27,9 @@ jobs:
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with: 
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ftp.onlineteachingquran.pk
+          username: backend@api.onlineteachingquran.pk
+          password: R5?k-#+XSXB^
           protocol: ftps
           security: strict
           port: 21
