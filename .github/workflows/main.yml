@@ -32,4 +32,4 @@ jobs:
           password: R5?k-#+XSXB^
           protocol: ftps
           # security: strict
-          # port: 21
+          port: 21
