@@ -31,5 +31,5 @@ jobs:
           username: backend@api.onlineteachingquran.pk
           password: R5?k-#+XSXB^
           protocol: ftps
-          # security: strict
+          security: strict
           port: 21
