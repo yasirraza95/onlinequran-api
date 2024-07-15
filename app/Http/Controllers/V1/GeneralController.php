@@ -1803,7 +1803,7 @@ class GeneralController extends Controller
             $site = 'Online Teaching Quran';
             // $recipient = "raza.yasir95@gmail.com";
 
-            Mail::send([], [], function ($message) use ($bodyText, $subject, $recipient, $sender, $site, ) {
+            Mail::send([], [], function ($message) use ($bodyText, $subject, $recipient, $sender, $site) {
                 $message->from($sender, $site);
                 $message
                     ->to($recipient)
