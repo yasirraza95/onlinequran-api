@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Newsletter;
+use App\Models\Enrollment;
 use App\Models\User;
 use App\Models\State;
 use App\Models\City;
@@ -601,6 +602,21 @@ class GeneralController extends Controller
         return $result;
     }
 
+    public function listEnrollments(Request $request)
+    {
+        $result = Enrollment::orderBy('id', 'DESC')->get();
+
+        $counter = count($result);
+        $counter > 0 ? ($status = 200) : ($status = 404);
+
+        $data = [
+            'response' => $result,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
     public function listTeachers(Request $request)
     {
         $result = Teacher::orderBy('id', 'DESC')->get();
@@ -1130,6 +1146,20 @@ class GeneralController extends Controller
     {
         $id = stripslashes($request->id);
         $result = Service::findOrFail($id);
+
+        $status = 200;
+        $data = [
+            'response' => $result,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
+    public function getEnrollmentById(Request $request)
+    {
+        $id = stripslashes($request->id);
+        $result = Enrollment::findOrFail($id);
 
         $status = 200;
         $data = [
@@ -1700,6 +1730,22 @@ class GeneralController extends Controller
     {
         $instance = Service::findOrFail($request->id);
         $update = ["name" => $request->name, "description" => $request->description ];
+        $instance->update($update);
+
+        $status = 200;
+        $message = "Record updated";
+        $data = [
+            'response' => $message,
+        ];
+
+        $result = $this->successResponse($request, $data, $status);
+        return $result;
+    }
+
+    public function updateEnrollmentById(Request $request)
+    {
+        $instance = Enrollment::findOrFail($request->id);
+        $update = ["price" => $request->price ];
         $instance->update($update);
 
         $status = 200;

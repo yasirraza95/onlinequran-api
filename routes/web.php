@@ -54,6 +54,10 @@ Route::get('service/{id}', 'GeneralController@getServiceById');
 Route::put('service/{id}', 'GeneralController@updateServiceById');
 Route::delete('service/{id}', 'GeneralController@deleteServiceById');
 
+Route::get('enrollments', 'GeneralController@listEnrollments');
+Route::get('enrollment/{id}', 'GeneralController@getEnrollmentById');
+Route::put('enrollment/{id}', 'GeneralController@updateEnrollmentById');
+
 Route::get('service-counter', 'GeneralController@serviceCounter');
 Route::get('slider-counter', 'GeneralController@sliderCounter');
 
