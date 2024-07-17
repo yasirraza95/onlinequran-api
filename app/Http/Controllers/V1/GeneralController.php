@@ -1745,7 +1745,7 @@ class GeneralController extends Controller
     public function updateEnrollmentById(Request $request)
     {
         $instance = Enrollment::findOrFail($request->id);
-        $update = ["price" => $request->price ];
+        $update = ["price" => $request->price, "starter" => $request->starter, "duration" => $request->duration ];
         $instance->update($update);
 
         $status = 200;
